@@ -52,4 +52,14 @@ export default runWithBundleAnalyzer({
   images: {
     domains: [],
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/overview',
+        permanent: true,
+      },
+    ];
+  },
 });

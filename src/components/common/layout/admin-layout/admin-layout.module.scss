@@ -1,0 +1,37 @@
+.logo {
+  padding: 4px;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.mobileLogo {
+  width: 40px;
+  position: relative;
+  height: 40px;
+  margin-right: 4px;
+}
+
+.menu {
+  width: 100%;
+  overflow: auto;
+}
+
+.layout {
+  @media (width >= 992px) {
+    margin-left: 200px;
+  }
+}
+
+.content {
+  margin: 24px 16px 0;
+  overflow: initial;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  padding: 0 16px;
+}

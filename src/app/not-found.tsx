@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable import/no-unused-modules */
 import React from 'react';
 import Link from 'next/link';
