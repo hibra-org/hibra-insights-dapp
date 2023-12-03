@@ -41,7 +41,7 @@ const Home = () => {
               />
             </Col>
           </Row>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>Loading....</div>}>
             <TaskTable />
           </Suspense>
         </div>
