@@ -1,20 +1,16 @@
 import React from 'react';
-import Link from 'next/link';
+import { SEO } from '@/utils/constants/seo.constant';
+import { Layout } from 'antd';
 
 import styles from './copyright-footer.module.scss';
 
+const { Footer } = Layout;
+
 function CopyrightFooter() {
   return (
-    <footer className={styles.footer}>
-      NextJS Boilerplate &copy; {new Date().getFullYear()}. Created by{' '}
-      <Link
-        className={styles.footerLink}
-        href="https://github.com/truongdn-it/nextjs-boilerplate"
-        target="_blank"
-      >
-        truongdn-it
-      </Link>
-    </footer>
+    <Footer className={styles.footer}>
+      {SEO.title} &copy;{new Date().getFullYear()}
+    </Footer>
   );
 }
 
