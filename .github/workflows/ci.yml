@@ -26,3 +26,5 @@ jobs:
         env:
           # NEXT_PUBLIC_API_ENDPOINT: ${{ secrets.NEXT_PUBLIC_API_ENDPOINT }}
           NEXT_PUBLIC_API_ENDPOINT: 'http://localhost:3000'
+          NEXT_PUBLIC_CONTRACT_ID: 'hibra.org'
+          JWT_SECRET: 'LT@&3cGp%g2uKn7UBEs?65'
