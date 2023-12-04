@@ -53,6 +53,14 @@ const MENU_ITEMS = [
   },
 ] as { path?: string; key: string }[] & MenuProps['items'];
 
+// eslint-disable-next-line no-unused-vars
+enum COOKIE_KEYS {
+  // eslint-disable-next-line no-unused-vars
+  AUTH = 'auth',
+}
+
+const SALT = 10;
+
 export {
   API_ROUTES,
   WEB_ROUTES,
@@ -61,4 +69,6 @@ export {
   REFRESH_TOKEN_COOKIE_CONFIG,
   MENU_ITEMS,
   PLACEHOLDER_IMAGE,
+  COOKIE_KEYS,
+  SALT,
 };

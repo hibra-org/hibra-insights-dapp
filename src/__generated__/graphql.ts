@@ -30,6 +30,24 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  postLogin?: Maybe<PostLogin>;
+};
+
+export type MutationPostLoginArgs = {
+  accountId: Scalars['String']['input'];
+  nonce: Scalars['String']['input'];
+  publicKey: Scalars['String']['input'];
+  signature: Scalars['String']['input'];
+};
+
+export type PostLogin = {
+  __typename?: 'PostLogin';
+  access_token: Scalars['String']['output'];
+  refresh_token: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
   getTodos?: Maybe<Array<Maybe<Todo>>>;
@@ -42,6 +60,22 @@ export type Todo = {
   priority?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
+};
+
+export type PostLoginMutationVariables = Exact<{
+  accountId: Scalars['String']['input'];
+  publicKey: Scalars['String']['input'];
+  signature: Scalars['String']['input'];
+  nonce: Scalars['String']['input'];
+}>;
+
+export type PostLoginMutation = {
+  __typename?: 'Mutation';
+  postLogin?: {
+    __typename?: 'PostLogin';
+    access_token: string;
+    refresh_token: string;
+  } | null;
 };
 
 export type TodoQueryQueryVariables = Exact<{ [key: string]: never }>;
@@ -58,6 +92,130 @@ export type TodoQueryQuery = {
   } | null> | null;
 };
 
+export const PostLoginDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'PostLogin' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'accountId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'publicKey' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'signature' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'nonce' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'postLogin' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'accountId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'accountId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'publicKey' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'publicKey' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'signature' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'signature' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'nonce' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'nonce' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'access_token' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'refresh_token' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PostLoginMutation, PostLoginMutationVariables>;
 export const TodoQueryDocument = {
   kind: 'Document',
   definitions: [

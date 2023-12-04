@@ -2,14 +2,15 @@ import React, { ReactNode, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import LoginFeature from '@/components/features/login';
 import {
   MENU_ITEMS,
   PLACEHOLDER_IMAGE,
   WEB_ROUTES,
 } from '@/utils/constants/common.constant';
 import { toCapitalizeFirstLetter } from '@/utils/helpers/common';
-import { HomeOutlined, LoginOutlined } from '@ant-design/icons';
-import { Breadcrumb, Button, Flex, Layout, Menu, theme } from 'antd';
+import { HomeOutlined } from '@ant-design/icons';
+import { Breadcrumb, Flex, Layout, Menu, theme } from 'antd';
 import { BreadcrumbItemType } from 'antd/es/breadcrumb/Breadcrumb';
 import CopyrightFooter from '@components/common/footer/copyright-footer';
 
@@ -142,9 +143,7 @@ function AdminLayout({ children }: { children: ReactNode }) {
             </>
           )}
           <Flex justify="flex-end" style={isMobile ? {} : { width: '100%' }}>
-            <Button type="primary" icon={<LoginOutlined />}>
-              Login
-            </Button>
+            <LoginFeature />
           </Flex>
         </Header>
 

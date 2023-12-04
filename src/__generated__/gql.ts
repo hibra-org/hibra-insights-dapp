@@ -14,6 +14,8 @@ import * as types from './graphql';
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+  '\n  mutation PostLogin(\n    $accountId: String!\n    $publicKey: String!\n    $signature: String!\n    $nonce: String!\n  ) {\n    postLogin(\n      accountId: $accountId\n      publicKey: $publicKey\n      signature: $signature\n      nonce: $nonce\n    ) {\n      access_token\n      refresh_token\n    }\n  }\n':
+    types.PostLoginDocument,
   '\n  query TodoQuery {\n    getTodos {\n      id\n      title\n      status\n      label\n      priority\n    }\n  }\n':
     types.TodoQueryDocument,
 };
@@ -32,6 +34,12 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation PostLogin(\n    $accountId: String!\n    $publicKey: String!\n    $signature: String!\n    $nonce: String!\n  ) {\n    postLogin(\n      accountId: $accountId\n      publicKey: $publicKey\n      signature: $signature\n      nonce: $nonce\n    ) {\n      access_token\n      refresh_token\n    }\n  }\n',
+): (typeof documents)['\n  mutation PostLogin(\n    $accountId: String!\n    $publicKey: String!\n    $signature: String!\n    $nonce: String!\n  ) {\n    postLogin(\n      accountId: $accountId\n      publicKey: $publicKey\n      signature: $signature\n      nonce: $nonce\n    ) {\n      access_token\n      refresh_token\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

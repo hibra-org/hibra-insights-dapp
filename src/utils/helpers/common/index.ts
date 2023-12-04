@@ -1,3 +1,6 @@
+import { SALT } from '@/utils/constants/common.constant';
+import bcrypt from 'bcryptjs';
+
 function isEmpty(obj: Array<any> | object): boolean {
   if (!obj || typeof obj !== 'object') return !obj;
 
@@ -46,10 +49,22 @@ const rgbDataURL = (r: number, g: number, b: number) =>
 const toCapitalizeFirstLetter = (str: string) =>
   str[0].toUpperCase() + str.slice(1);
 
+const hash = async (str: string): Promise<string> => {
+  const hash = await bcrypt.hash(str, SALT);
+  return hash;
+};
+
+const verify = async (str: string, hash: string): Promise<boolean> => {
+  const result = await bcrypt.compare(str, hash);
+  return result;
+};
+
 export {
   removeUndefinedAndNull,
   isEmpty,
   toBase64,
   rgbDataURL,
   toCapitalizeFirstLetter,
+  hash,
+  verify,
 };
