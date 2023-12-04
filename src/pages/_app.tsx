@@ -3,6 +3,7 @@
 
 import 'antd/dist/reset.css';
 import '@styles/globals.scss';
+import '@near-wallet-selector/modal-ui/styles.css';
 
 import React, { ReactElement, ReactNode, useEffect } from 'react';
 import { NextPage } from 'next';
@@ -10,6 +11,7 @@ import type { AppProps, NextWebVitalsMetric } from 'next/app';
 import { Open_Sans } from 'next/font/google';
 import Head from 'next/head';
 import { useErrorsStore } from '@/components/common/modal/errors-modal/errors-modal.store';
+import WalletSelectorContextProvider from '@/components/features/login/wallet-selector.context';
 import {
   legacyLogicalPropertiesTransformer,
   StyleProvider,
@@ -91,12 +93,14 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
           <ConfigProvider autoInsertSpaceInButton={false} theme={THEME_CONFIG}>
             <StyleProvider transformers={[legacyLogicalPropertiesTransformer]}>
               <ApolloProvider client={apolloClient}>
-                {hydated &&
-                  getLayout(
-                    <AppAntd notification={{ placement: 'topRight' }}>
-                      <Component {...pageProps} />
-                    </AppAntd>,
-                  )}
+                <WalletSelectorContextProvider>
+                  {hydated &&
+                    getLayout(
+                      <AppAntd notification={{ placement: 'topRight' }}>
+                        <Component {...pageProps} />
+                      </AppAntd>,
+                    )}
+                </WalletSelectorContextProvider>
               </ApolloProvider>
             </StyleProvider>
             <ReactQueryDevtools initialIsOpen={false} />

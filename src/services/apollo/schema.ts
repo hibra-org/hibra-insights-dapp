@@ -1,9 +1,9 @@
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
-import { todoResolvers } from './resolvers';
-import { todoTypeDefs } from './type-defs';
+import { loginResolvers, todoResolvers } from './resolvers';
+import { loginTypeDefs, todoTypeDefs } from './type-defs';
 
 export const schema = makeExecutableSchema({
-  typeDefs: [todoTypeDefs],
-  resolvers: [todoResolvers],
+  typeDefs: [todoTypeDefs, loginTypeDefs],
+  resolvers: [todoResolvers, loginResolvers],
 });
