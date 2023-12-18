@@ -1,5 +1,6 @@
 import { SALT } from '@/utils/constants/common.constant';
 import bcrypt from 'bcryptjs';
+import { SweetAlertOptions } from 'sweetalert2';
 
 function isEmpty(obj: Array<any> | object): boolean {
   if (!obj || typeof obj !== 'object') return !obj;
@@ -46,6 +47,8 @@ const rgbDataURL = (r: number, g: number, b: number) =>
     triplet(0, r, g) + triplet(b, 255, 255)
   }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
 
+const PLACEHOLDER_IMAGE = rgbDataURL(204, 204, 204) as 'data:image/${string}';
+
 const toCapitalizeFirstLetter = (str: string) =>
   str[0].toUpperCase() + str.slice(1);
 
@@ -59,6 +62,22 @@ const verify = async (str: string, hash: string): Promise<boolean> => {
   return result;
 };
 
+const getSweetErrorConfig = (message: string): SweetAlertOptions => {
+  return {
+    icon: 'error',
+    title: message,
+    width: 600,
+    padding: '3em',
+    color: '#716add',
+    backdrop: `
+            rgba(0,0,123,0.4)
+            url("/common/nyan-cat.gif")
+            left top
+            no-repeat
+        `,
+  };
+};
+
 export {
   removeUndefinedAndNull,
   isEmpty,
@@ -67,4 +86,6 @@ export {
   toCapitalizeFirstLetter,
   hash,
   verify,
+  getSweetErrorConfig,
+  PLACEHOLDER_IMAGE,
 };

@@ -2,17 +2,11 @@ import { gql } from '@apollo/client';
 
 const loginTypeDefs = gql`
   type PostLogin {
-    access_token: String!
-    refresh_token: String!
+    id: ID!
   }
 
   type Mutation {
-    postLogin(
-      accountId: String!
-      publicKey: String!
-      signature: String!
-      nonce: String!
-    ): PostLogin
+    postLogin(wallet: String, walletAddress: String, chain: String): PostLogin
   }
 `;
 

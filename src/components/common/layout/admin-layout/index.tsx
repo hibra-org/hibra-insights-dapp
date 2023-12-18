@@ -3,12 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import LoginFeature from '@/components/features/login';
+import { MENU_ITEMS, WEB_ROUTES } from '@/utils/constants/common.constant';
 import {
-  MENU_ITEMS,
   PLACEHOLDER_IMAGE,
-  WEB_ROUTES,
-} from '@/utils/constants/common.constant';
-import { toCapitalizeFirstLetter } from '@/utils/helpers/common';
+  toCapitalizeFirstLetter,
+} from '@/utils/helpers/common.helper';
 import { HomeOutlined } from '@ant-design/icons';
 import { Breadcrumb, Flex, Layout, Menu, theme } from 'antd';
 import { BreadcrumbItemType } from 'antd/es/breadcrumb/Breadcrumb';

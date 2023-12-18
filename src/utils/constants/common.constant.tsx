@@ -3,10 +3,9 @@ import Link from 'next/link';
 import { PieChartOutlined, RadarChartOutlined } from '@ant-design/icons';
 import { MenuProps } from 'antd';
 
-import { rgbDataURL } from '../helpers/common';
-
 const API_ROUTES = {
   GET_TASKS: '/api/get-tasks',
+  GET_NONCE: '/api/nonce',
 };
 
 const WEB_ROUTES = {
@@ -16,7 +15,6 @@ const WEB_ROUTES = {
 };
 
 const NO_IMAGE = '/common/no-avatar.png';
-const PLACEHOLDER_IMAGE = rgbDataURL(204, 204, 204) as 'data:image/${string}';
 
 const ACCESS_TOKEN_COOKIE_CONFIG = {
   maxAge: 60 * 5,
@@ -68,7 +66,6 @@ export {
   ACCESS_TOKEN_COOKIE_CONFIG,
   REFRESH_TOKEN_COOKIE_CONFIG,
   MENU_ITEMS,
-  PLACEHOLDER_IMAGE,
   COOKIE_KEYS,
   SALT,
 };

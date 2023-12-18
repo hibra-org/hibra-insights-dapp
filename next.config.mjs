@@ -3,6 +3,13 @@ import './env.mjs';
 /** @type {import('next').NextConfig} */
 
 import withBundleAnalyzer from '@next/bundle-analyzer';
+import million from 'million/compiler';
+
+const millionConfig = {
+  auto: false,
+  // if you're using RSC:
+  // auto: { rsc: true },
+};
 
 const runWithBundleAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -27,7 +34,7 @@ const securityHeaders = [
   },
 ];
 
-export default runWithBundleAnalyzer({
+const nextConfig = runWithBundleAnalyzer({
   reactStrictMode: true,
   output: 'standalone',
   compiler: {
@@ -63,3 +70,7 @@ export default runWithBundleAnalyzer({
     ];
   },
 });
+
+export default process.env.NODE_ENV === 'production'
+  ? million.next(nextConfig, millionConfig)
+  : nextConfig;

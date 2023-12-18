@@ -21,10 +21,13 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Install depenencies
         run: yarn install
+      - name: Generate Prisma
+        run: yarn db:generate
       - name: Building NextJS Boilerplate
         run: yarn build
         env:
           # NEXT_PUBLIC_API_ENDPOINT: ${{ secrets.NEXT_PUBLIC_API_ENDPOINT }}
           NEXT_PUBLIC_API_ENDPOINT: 'http://localhost:3000'
-          NEXT_PUBLIC_CONTRACT_ID: 'hibra.org'
-          JWT_SECRET: 'LT@&3cGp%g2uKn7UBEs?65'
+          NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID: '00f1fa81-da45-46d6-bb36-1a68b4c11158'
+          PUBLIC_KEY: "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAnNgVOjQKSqmkDJTnJzwz\nA30j3EVwJIufmWbB4aTqRQeBAeDK3bt0FspZCcHRwmtbhBSTG3W6QPYmHB56Pxmr\nAMEZ72JqrpKI9xXTeKtsur3HX1cb7cI+nSVn4dVkV6PUz+W0p3Fq8fCDgoWF26Y/\nnZ7FMOM0b0/2GQoSzxs0MFA3+qD7ekSb4WoAh9M9uqFrP16Rrr81v//EAsUF6g0p\nU8Z2N7es6Q/sgNGkuye7DIpxnhlxOUYRqHmkq0t6Oabfd4OS16PxDwkbDMeo8ZqA\nug/NOAiBa7IHjUlDpWoG2o+GOeFOptZxHLszDR4De220ggwCLq7UyJzlHSomoqh5\nCllfJ73Mi1MJI4mhVQmFYEQ645u6kn0UWbVjuyQFliCbaCMamZPgW7+Pkhy7PP5I\ntU5K9FC2MVlw9FveaAvN7bezouhRipde/i3XJESjPVtsGQzJAuHlFfgu5hqaczSX\nHwWiEKUF+KC5+bNc1/kaknFjw2L+uJR5kJmVPCgN8gAO8jN2XjRzO1jpOu0XhJYA\nF61HEfvHEYbln7ZXXAgOSDIYye3VXVmIbhh7fSZWgSM1C/pqaZRCRehi7IOBBHxf\ngM/TdDEt1fPioCNGdwM+YjhIDC4Vkc6dbuitbwdUiUomqPuQz5J0Gmz0FMUVStDf\nanY1BdpiCWFvPG64XBrV+0kCAwEAAQ==\n-----END PUBLIC KEY-----"
+          DATABASE_URL: 'postgresql://hibra:vOeLDeNY46ddok0SDhCt@hibra-insights-production.cqr3wzlx0zi1.us-east-1.rds.amazonaws.com:5432/hibra_insights?schema=public&connect_timeout=300'
