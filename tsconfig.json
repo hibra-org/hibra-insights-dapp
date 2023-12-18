@@ -7,7 +7,9 @@
       "@services/*": ["src/services/*"],
       "@styles/*": ["src/styles/*"],
       "@utils/*": ["src/utils/*"],
-      "@scripts/*": ["scripts/*"]
+      "@scripts/*": ["scripts/*"],
+      "@adapters/*": ["src/services/apollo/graphql/*"],
+      "stores/*": ["src/stores/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

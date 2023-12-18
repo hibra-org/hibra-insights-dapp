@@ -1,16 +1,33 @@
 import { useMemo } from 'react';
+import { getSweetErrorConfig } from '@/utils/helpers/common.helper';
 import {
   ApolloClient,
+  from,
   HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
 import { SchemaLink } from '@apollo/client/link/schema';
+import { getAuthToken } from '@dynamic-labs/sdk-react-core';
 import merge from 'deepmerge';
+import Swal from 'sweetalert2';
 
 import { schema } from './schema';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    graphQLErrors.forEach(({ message }) => {
+      Swal.fire(getSweetErrorConfig(message));
+    });
+  }
+  if (networkError) {
+    Swal.fire(getSweetErrorConfig(networkError.message));
+  }
+});
 
 function createIsomorphLink() {
   if (typeof window === 'undefined') {
@@ -23,10 +40,21 @@ function createIsomorphLink() {
   }
 }
 
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: `Bearer ${getAuthToken()}`,
+    },
+  };
+});
+
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: createIsomorphLink(),
+    link: from([errorLink, authLink.concat(createIsomorphLink())]),
     cache: new InMemoryCache(),
   });
 }

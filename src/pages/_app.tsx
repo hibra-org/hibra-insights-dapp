@@ -3,15 +3,13 @@
 
 import 'antd/dist/reset.css';
 import '@styles/globals.scss';
-import '@near-wallet-selector/modal-ui/styles.css';
 
 import React, { ReactElement, ReactNode, useEffect } from 'react';
 import { NextPage } from 'next';
 import type { AppProps, NextWebVitalsMetric } from 'next/app';
 import { Open_Sans } from 'next/font/google';
 import Head from 'next/head';
-import { useErrorsStore } from '@/components/common/modal/errors-modal/errors-modal.store';
-import WalletSelectorContextProvider from '@/components/features/login/wallet-selector.context';
+import { DynamicProvider } from '@/stores/dynamic/dynamic-provider.store';
 import {
   legacyLogicalPropertiesTransformer,
   StyleProvider,
@@ -19,17 +17,10 @@ import {
 import { ApolloProvider } from '@apollo/client';
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 import { useApollo } from '@services/apollo/client';
-import {
-  HydrationBoundary,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { App as AppAntd, ConfigProvider } from 'antd';
 import type { ThemeConfig } from 'antd';
 import chalk from 'chalk';
 import { useLocalesStore } from '@utils/helpers/locales/locales.store';
-import { queryConfig } from '@utils/helpers/queries/queries.helper';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   // eslint-disable-next-line no-unused-vars
@@ -50,7 +41,6 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
   const [hydated, seHydrated] = React.useState(false);
   const setDict = useLocalesStore((state) => state.setDict);
   const locale = useLocalesStore((state) => state.locale);
-  const setErrors = useErrorsStore((state) => state.setErrors);
 
   useEffect(() => {
     seHydrated(true);
@@ -60,9 +50,6 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
     hydated && setDict(locale);
   }, [hydated, locale, setDict]);
 
-  const [queryClient] = React.useState(
-    () => new QueryClient(queryConfig(setErrors)),
-  );
   const getLayout = Component.getLayout ?? ((page) => page);
 
   const THEME_CONFIG: ThemeConfig = {
@@ -88,25 +75,17 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         />
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <HydrationBoundary state={pageProps.dehydratedState}>
-          <ConfigProvider autoInsertSpaceInButton={false} theme={THEME_CONFIG}>
-            <StyleProvider transformers={[legacyLogicalPropertiesTransformer]}>
-              <ApolloProvider client={apolloClient}>
-                <WalletSelectorContextProvider>
-                  {hydated &&
-                    getLayout(
-                      <AppAntd notification={{ placement: 'topRight' }}>
-                        <Component {...pageProps} />
-                      </AppAntd>,
-                    )}
-                </WalletSelectorContextProvider>
-              </ApolloProvider>
-            </StyleProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </ConfigProvider>
-        </HydrationBoundary>
-      </QueryClientProvider>
+      <ConfigProvider autoInsertSpaceInButton={false} theme={THEME_CONFIG}>
+        <StyleProvider transformers={[legacyLogicalPropertiesTransformer]}>
+          <ApolloProvider client={apolloClient}>
+            <AppAntd notification={{ placement: 'topRight' }}>
+              <DynamicProvider>
+                {hydated && getLayout(<Component {...pageProps} />)}
+              </DynamicProvider>
+            </AppAntd>
+          </ApolloProvider>
+        </StyleProvider>
+      </ConfigProvider>
     </>
   );
 }

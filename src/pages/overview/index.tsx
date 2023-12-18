@@ -9,7 +9,6 @@ const Overview = () => {
   return (
     <>
       <DefaultSeo {...SEO} title="Overview" />
-
       {
         // indicates very long content
         Array.from({ length: 100 }, (_, index) => (
