@@ -1,34 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
-import { PieChartOutlined, RadarChartOutlined } from '@ant-design/icons';
+import {
+  PieChartOutlined,
+  PushpinOutlined,
+  RadarChartOutlined,
+  SettingOutlined,
+} from '@ant-design/icons';
 import { MenuProps } from 'antd';
 
-const API_ROUTES = {
-  GET_TASKS: '/api/get-tasks',
-  GET_NONCE: '/api/nonce',
-};
-
-const WEB_ROUTES = {
-  HOME: '/',
-  OVERVIEW: '/overview',
-  PORTFOLIO: '/portfolio',
-};
+import { WEB_ROUTES } from './routes.constant';
 
 const NO_IMAGE = '/common/no-avatar.png';
-
-const ACCESS_TOKEN_COOKIE_CONFIG = {
-  maxAge: 60 * 5,
-  httpOnly: false,
-  secure: process.env.NEXT_PUBLIC_MODE_ENV !== 'development',
-  sameSite: 'lax' as 'lax',
-};
-
-const REFRESH_TOKEN_COOKIE_CONFIG = {
-  maxAge: 60 * 60 * 24 * 7,
-  httpOnly: false,
-  secure: process.env.NEXT_PUBLIC_MODE_ENV !== 'development',
-  sameSite: 'lax' as 'lax',
-};
 
 const MENU_ITEMS = [
   {
@@ -45,11 +27,32 @@ const MENU_ITEMS = [
     icon: React.createElement(PieChartOutlined),
     label: <Link href={WEB_ROUTES.PORTFOLIO}>Portfolio</Link>,
     path: WEB_ROUTES.PORTFOLIO,
+    private: 'true',
   },
   {
     type: 'divider',
   },
-] as { path?: string; key: string }[] & MenuProps['items'];
+  {
+    key: String(3),
+    icon: React.createElement(SettingOutlined),
+    label: 'Setting',
+    private: 'true',
+    children: [
+      {
+        key: String(4),
+        icon: React.createElement(PushpinOutlined),
+        label: <Link href={WEB_ROUTES.SETTING + '#portfolio'}>Portfolio</Link>,
+        path: WEB_ROUTES.SETTING + '#portfolio',
+      },
+    ],
+  },
+] as {
+  path?: string;
+  key: string;
+  children?: { path?: string; key: string }[] & MenuProps['items'];
+  private?: 'true';
+}[] &
+  MenuProps['items'];
 
 // eslint-disable-next-line no-unused-vars
 enum COOKIE_KEYS {
@@ -57,15 +60,4 @@ enum COOKIE_KEYS {
   AUTH = 'auth',
 }
 
-const SALT = 10;
-
-export {
-  API_ROUTES,
-  WEB_ROUTES,
-  NO_IMAGE,
-  ACCESS_TOKEN_COOKIE_CONFIG,
-  REFRESH_TOKEN_COOKIE_CONFIG,
-  MENU_ITEMS,
-  COOKIE_KEYS,
-  SALT,
-};
+export { NO_IMAGE, MENU_ITEMS, COOKIE_KEYS };

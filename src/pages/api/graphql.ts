@@ -10,7 +10,7 @@ export type Context = {
   prisma: PrismaClient;
   req: NextApiRequest;
   res: NextApiResponse;
-  auth: string | null;
+  auth: string;
 };
 
 const apolloServer = new ApolloServer({
@@ -24,7 +24,7 @@ const apolloServer = new ApolloServer({
 // eslint-disable-next-line import/no-unused-modules
 export default startServerAndCreateNextHandler(apolloServer, {
   context: async (req, res): Promise<Context> => {
-    const auth = req.headers.authorization?.split(' ')?.[1] || null;
+    const auth = req.headers.authorization?.split(' ')?.[1] || '';
 
     return {
       prisma,

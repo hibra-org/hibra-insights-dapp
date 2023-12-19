@@ -30,9 +30,29 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
+export type ExchangeDetail = {
+  __typename?: 'ExchangeDetail';
+  apiKey?: Maybe<Scalars['String']['output']>;
+  exchangeId?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['Int']['output']>;
+  userId?: Maybe<Scalars['Int']['output']>;
+  walletAddress?: Maybe<Scalars['String']['output']>;
+};
+
+export type GetSetting = {
+  __typename?: 'GetSetting';
+  exchange?: Maybe<Array<Maybe<ExchangeDetail>>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  postExchange?: Maybe<PostExchange>;
   postLogin?: Maybe<PostLogin>;
+};
+
+export type MutationPostExchangeArgs = {
+  binanceApiKey?: InputMaybe<Scalars['String']['input']>;
+  okxApiKey?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationPostLoginArgs = {
@@ -46,6 +66,12 @@ export type Ping = {
   status?: Maybe<Scalars['Boolean']['output']>;
 };
 
+export type PostExchange = {
+  __typename?: 'PostExchange';
+  binanceApiKey?: Maybe<Scalars['String']['output']>;
+  okxApiKey?: Maybe<Scalars['String']['output']>;
+};
+
 export type PostLogin = {
   __typename?: 'PostLogin';
   id: Scalars['ID']['output'];
@@ -53,6 +79,7 @@ export type PostLogin = {
 
 export type Query = {
   __typename?: 'Query';
+  getSetting?: Maybe<GetSetting>;
   ping?: Maybe<Ping>;
 };
 
@@ -65,6 +92,37 @@ export type PostLoginMutationVariables = Exact<{
 export type PostLoginMutation = {
   __typename?: 'Mutation';
   postLogin?: { __typename?: 'PostLogin'; id: string } | null;
+};
+
+export type GetSettingQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetSettingQuery = {
+  __typename?: 'Query';
+  getSetting?: {
+    __typename?: 'GetSetting';
+    exchange?: Array<{
+      __typename?: 'ExchangeDetail';
+      id?: number | null;
+      exchangeId?: string | null;
+      userId?: number | null;
+      walletAddress?: string | null;
+      apiKey?: string | null;
+    } | null> | null;
+  } | null;
+};
+
+export type MutationMutationVariables = Exact<{
+  binanceApiKey?: InputMaybe<Scalars['String']['input']>;
+  okxApiKey?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type MutationMutation = {
+  __typename?: 'Mutation';
+  postExchange?: {
+    __typename?: 'PostExchange';
+    binanceApiKey?: string | null;
+    okxApiKey?: string | null;
+  } | null;
 };
 
 export const PostLoginDocument = {
@@ -144,3 +202,118 @@ export const PostLoginDocument = {
     },
   ],
 } as unknown as DocumentNode<PostLoginMutation, PostLoginMutationVariables>;
+export const GetSettingDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetSetting' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getSetting' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'exchange' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'exchangeId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'userId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'walletAddress' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'apiKey' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetSettingQuery, GetSettingQueryVariables>;
+export const MutationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'Mutation' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'binanceApiKey' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'okxApiKey' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'postExchange' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'binanceApiKey' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'binanceApiKey' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'okxApiKey' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'okxApiKey' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'binanceApiKey' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'okxApiKey' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<MutationMutation, MutationMutationVariables>;

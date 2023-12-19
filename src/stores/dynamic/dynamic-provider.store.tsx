@@ -1,5 +1,5 @@
 import React from 'react';
-import { POST_LOGIN } from '@/services/apollo/graphql/login.graphql';
+import { POST_LOGIN } from '@/adapters/login.adapter';
 import { useMutation } from '@apollo/client';
 import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core';
 import { SolanaWalletConnectors } from '@dynamic-labs/solana';

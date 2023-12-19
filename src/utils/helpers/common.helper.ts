@@ -1,5 +1,3 @@
-import { SALT } from '@/utils/constants/common.constant';
-import bcrypt from 'bcryptjs';
 import { SweetAlertOptions } from 'sweetalert2';
 
 function isEmpty(obj: Array<any> | object): boolean {
@@ -52,16 +50,6 @@ const PLACEHOLDER_IMAGE = rgbDataURL(204, 204, 204) as 'data:image/${string}';
 const toCapitalizeFirstLetter = (str: string) =>
   str[0].toUpperCase() + str.slice(1);
 
-const hash = async (str: string): Promise<string> => {
-  const hash = await bcrypt.hash(str, SALT);
-  return hash;
-};
-
-const verify = async (str: string, hash: string): Promise<boolean> => {
-  const result = await bcrypt.compare(str, hash);
-  return result;
-};
-
 const getSweetErrorConfig = (message: string): SweetAlertOptions => {
   return {
     icon: 'error',
@@ -84,8 +72,6 @@ export {
   toBase64,
   rgbDataURL,
   toCapitalizeFirstLetter,
-  hash,
-  verify,
   getSweetErrorConfig,
   PLACEHOLDER_IMAGE,
 };

@@ -11,10 +11,29 @@ datasource db {
 }
 
 model User {
+  id             Int              @id @default(autoincrement())
+  wallet         String
+  walletAddress  String           @unique
+  chain          String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  ExchangeDetail ExchangeDetail[]
+
+  @@unique([id, walletAddress])
+}
+
+model Exchange {
+  id             String           @unique
+  name           String
+  ExchangeDetail ExchangeDetail[]
+}
+
+model ExchangeDetail {
   id            Int      @id @default(autoincrement())
-  wallet        String
-  walletAddress String   @unique
-  chain         String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  exchange      Exchange @relation(fields: [exchangeId], references: [id])
+  exchangeId    String   @unique
+  user          User     @relation(fields: [userId, walletAddress], references: [id, walletAddress])
+  userId        Int
+  walletAddress String
+  apiKey        String?
 }

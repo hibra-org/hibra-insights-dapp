@@ -3,12 +3,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import LoginFeature from '@/components/features/login';
-import { MENU_ITEMS, WEB_ROUTES } from '@/utils/constants/common.constant';
+import { WEB_ROUTES } from '@/utils/constants';
+import { MENU_ITEMS } from '@/utils/constants/common.constant';
 import {
   PLACEHOLDER_IMAGE,
   toCapitalizeFirstLetter,
 } from '@/utils/helpers/common.helper';
 import { HomeOutlined } from '@ant-design/icons';
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { Breadcrumb, Flex, Layout, Menu, theme } from 'antd';
 import { BreadcrumbItemType } from 'antd/es/breadcrumb/Breadcrumb';
 import CopyrightFooter from '@components/common/footer/copyright-footer';
@@ -24,14 +26,48 @@ function AdminLayout({ children }: { children: ReactNode }) {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const { isAuthenticated } = useDynamicContext();
+
   const router = useRouter();
   const pathName = router?.pathname;
+  const asPath = router?.asPath;
+
+  const menuPermissions = useMemo(() => {
+    return MENU_ITEMS.filter((item) => {
+      if (isAuthenticated) {
+        return item;
+      }
+      return item.private !== 'true';
+    });
+  }, [isAuthenticated]);
 
   const menuSelected = useMemo(() => {
-    return MENU_ITEMS?.find((item) => {
-      return [item?.path].includes(pathName);
-    });
-  }, [pathName]);
+    let selected = null as any;
+
+    for (const parent of menuPermissions) {
+      if (parent?.children) {
+        for (const child of parent.children) {
+          if (
+            [child?.path].includes(pathName) ||
+            [child?.path].includes(asPath)
+          ) {
+            selected = child;
+            break;
+          }
+        }
+      }
+
+      if (
+        [parent?.path].includes(pathName) ||
+        [parent?.path].includes(asPath)
+      ) {
+        selected = parent;
+        break;
+      }
+    }
+
+    return selected;
+  }, [asPath, menuPermissions, pathName]);
 
   const breadcrumbItems = useMemo(
     () =>
@@ -104,7 +140,7 @@ function AdminLayout({ children }: { children: ReactNode }) {
           theme="light"
           mode="inline"
           selectedKeys={menuSelected ? [menuSelected.key] : []}
-          items={MENU_ITEMS}
+          items={menuPermissions}
         />
       </Sider>
       <Layout className={styles.layout}>
@@ -137,7 +173,7 @@ function AdminLayout({ children }: { children: ReactNode }) {
                 className={styles.menu}
                 mode="horizontal"
                 selectedKeys={menuSelected ? [menuSelected.key] : []}
-                items={MENU_ITEMS}
+                items={menuPermissions}
               />
             </>
           )}
