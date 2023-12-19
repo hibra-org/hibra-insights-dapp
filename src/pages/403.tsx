@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Layout from '@/components/common/layout/base-layout';
-import { WEB_ROUTES } from '@/utils/constants/common.constant';
+import { WEB_ROUTES } from '@/utils/constants';
 import { SEO } from '@/utils/constants/seo.constant';
 import { Button, Result, Row } from 'antd';
 import { DefaultSeo } from 'next-seo';

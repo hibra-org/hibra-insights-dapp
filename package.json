@@ -14,7 +14,8 @@
     "duongnamtruong"
   ],
   "prisma": {
-    "schema": "src/services/prisma/schema.prisma"
+    "schema": "src/services/prisma/schema.prisma",
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} src/services/prisma/seed.ts"
   },
   "scripts": {
     "dev": "next dev",
@@ -34,7 +35,8 @@
     "watch-graphql-types": "graphql-codegen -w",
     "db:pull": "prisma db pull",
     "db:generate": "prisma generate",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "db:seed": "prisma db seed"
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
@@ -51,6 +53,7 @@
     "bcryptjs": "2.4.3",
     "clsx": "^2.0.0",
     "cookies-next": "^4.1.0",
+    "cryptocurrency-icons": "0.18.1",
     "deepmerge": "4.3.1",
     "framer-motion": "^10.16.5",
     "graphql": "16.8.1",
@@ -112,6 +115,7 @@
     "storybook": "7.5.3",
     "stylelint": "15.11.0",
     "stylelint-config-standard-scss": "11.1.0",
+    "ts-node": "10.9.2",
     "typescript": "^5.3.2",
     "vite-tsconfig-paths": "^4.2.1",
     "vitest": "^0.34.6"

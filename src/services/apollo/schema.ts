@@ -1,9 +1,9 @@
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
-import { loginResolvers, pingResolvers } from './resolvers';
-import { loginTypeDefs, pingTypeDefs } from './type-defs';
+import { loginResolvers, pingResolvers, settingResolvers } from './resolvers';
+import { loginTypeDefs, pingTypeDefs, settingTypeDefs } from './type-defs';
 
 export const schema = makeExecutableSchema({
-  typeDefs: [loginTypeDefs, pingTypeDefs],
-  resolvers: [loginResolvers, pingResolvers],
+  typeDefs: [loginTypeDefs, pingTypeDefs, settingTypeDefs],
+  resolvers: [loginResolvers, pingResolvers, settingResolvers],
 });

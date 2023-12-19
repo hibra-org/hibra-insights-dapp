@@ -6,7 +6,7 @@ import withBundleAnalyzer from '@next/bundle-analyzer';
 import million from 'million/compiler';
 
 const millionConfig = {
-  auto: false,
+  auto: true,
   // if you're using RSC:
   // auto: { rsc: true },
 };
@@ -35,6 +35,14 @@ const securityHeaders = [
 ];
 
 const nextConfig = runWithBundleAnalyzer({
+  webpack(config, { webpack }) {
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'globalThis.__DEV__': false,
+      }),
+    );
+    return config;
+  },
   reactStrictMode: true,
   output: 'standalone',
   compiler: {

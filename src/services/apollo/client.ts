@@ -19,12 +19,12 @@ import { schema } from './schema';
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
+  if (graphQLErrors && graphQLErrors.length > 0) {
     graphQLErrors.forEach(({ message }) => {
       Swal.fire(getSweetErrorConfig(message));
     });
   }
-  if (networkError) {
+  if ((!graphQLErrors || graphQLErrors.length === 0) && networkError) {
     Swal.fire(getSweetErrorConfig(networkError.message));
   }
 });
@@ -46,7 +46,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: `Bearer ${getAuthToken()}`,
+      authorization: `Bearer ${getAuthToken() || ''}`,
     },
   };
 });
