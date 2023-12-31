@@ -7,10 +7,12 @@ const settingTypeDefs = gql`
     userId: Int
     walletAddress: String
     apiKey: String
+    apiSecret: String
   }
 
   type PostExchange {
     binanceApiKey: String
+    binanceApiSecret: String
     okxApiKey: String
   }
 
@@ -23,7 +25,11 @@ const settingTypeDefs = gql`
   }
 
   type Mutation {
-    postExchange(binanceApiKey: String, okxApiKey: String): PostExchange
+    postExchange(
+      binanceApiKey: String
+      binanceApiSecret: String
+      okxApiKey: String
+    ): PostExchange
   }
 `;
 

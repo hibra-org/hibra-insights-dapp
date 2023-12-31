@@ -8,7 +8,7 @@
       "@styles/*": ["src/styles/*"],
       "@utils/*": ["src/utils/*"],
       "@scripts/*": ["scripts/*"],
-      "@adapters/*": ["src/adapters/*"],
+      "@adapters/*": ["src/services/apollo/queries/*"],
       "stores/*": ["src/stores/*"]
     },
     "target": "es5",

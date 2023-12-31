@@ -14,4 +14,15 @@ const REFRESH_TOKEN_COOKIE_CONFIG = {
 
 const SALT = 10;
 
-export { ACCESS_TOKEN_COOKIE_CONFIG, REFRESH_TOKEN_COOKIE_CONFIG, SALT };
+// eslint-disable-next-line no-unused-vars
+enum COOKIE_KEYS {
+  // eslint-disable-next-line no-unused-vars
+  AUTH = 'auth',
+}
+
+export {
+  ACCESS_TOKEN_COOKIE_CONFIG,
+  REFRESH_TOKEN_COOKIE_CONFIG,
+  SALT,
+  COOKIE_KEYS,
+};

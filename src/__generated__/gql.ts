@@ -16,9 +16,11 @@ import * as types from './graphql';
 const documents = {
   '\n  mutation PostLogin($wallet: String, $walletAddress: String, $chain: String) {\n    postLogin(wallet: $wallet, walletAddress: $walletAddress, chain: $chain) {\n      id\n    }\n  }\n':
     types.PostLoginDocument,
-  '\n  query GetSetting {\n    getSetting {\n      exchange {\n        id\n        exchangeId\n        userId\n        walletAddress\n        apiKey\n      }\n    }\n  }\n':
+  '\n  query Query {\n    getPortfolio {\n      binanceBalances {\n        asset\n        free\n        locked\n        avgBuyPrice\n      }\n      binanceSnapshots {\n        updateTime\n        totalAssetOfUsd\n        totalAssetOfBtc\n        balances {\n          asset\n          free\n          locked\n        }\n      }\n    }\n  }\n':
+    types.QueryDocument,
+  '\n  query GetSetting {\n    getSetting {\n      exchange {\n        id\n        exchangeId\n        userId\n        walletAddress\n        apiKey\n        apiSecret\n      }\n    }\n  }\n':
     types.GetSettingDocument,
-  '\n  mutation Mutation($binanceApiKey: String, $okxApiKey: String) {\n    postExchange(binanceApiKey: $binanceApiKey, okxApiKey: $okxApiKey) {\n      binanceApiKey\n      okxApiKey\n    }\n  }\n':
+  '\n  mutation Mutation(\n    $binanceApiKey: String\n    $binanceApiSecret: String\n    $okxApiKey: String\n  ) {\n    postExchange(\n      binanceApiKey: $binanceApiKey\n      binanceApiSecret: $binanceApiSecret\n      okxApiKey: $okxApiKey\n    ) {\n      binanceApiKey\n      binanceApiSecret\n      okxApiKey\n    }\n  }\n':
     types.MutationDocument,
 };
 
@@ -46,14 +48,20 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query GetSetting {\n    getSetting {\n      exchange {\n        id\n        exchangeId\n        userId\n        walletAddress\n        apiKey\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query GetSetting {\n    getSetting {\n      exchange {\n        id\n        exchangeId\n        userId\n        walletAddress\n        apiKey\n      }\n    }\n  }\n'];
+  source: '\n  query Query {\n    getPortfolio {\n      binanceBalances {\n        asset\n        free\n        locked\n        avgBuyPrice\n      }\n      binanceSnapshots {\n        updateTime\n        totalAssetOfUsd\n        totalAssetOfBtc\n        balances {\n          asset\n          free\n          locked\n        }\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query Query {\n    getPortfolio {\n      binanceBalances {\n        asset\n        free\n        locked\n        avgBuyPrice\n      }\n      binanceSnapshots {\n        updateTime\n        totalAssetOfUsd\n        totalAssetOfBtc\n        balances {\n          asset\n          free\n          locked\n        }\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  mutation Mutation($binanceApiKey: String, $okxApiKey: String) {\n    postExchange(binanceApiKey: $binanceApiKey, okxApiKey: $okxApiKey) {\n      binanceApiKey\n      okxApiKey\n    }\n  }\n',
-): (typeof documents)['\n  mutation Mutation($binanceApiKey: String, $okxApiKey: String) {\n    postExchange(binanceApiKey: $binanceApiKey, okxApiKey: $okxApiKey) {\n      binanceApiKey\n      okxApiKey\n    }\n  }\n'];
+  source: '\n  query GetSetting {\n    getSetting {\n      exchange {\n        id\n        exchangeId\n        userId\n        walletAddress\n        apiKey\n        apiSecret\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query GetSetting {\n    getSetting {\n      exchange {\n        id\n        exchangeId\n        userId\n        walletAddress\n        apiKey\n        apiSecret\n      }\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation Mutation(\n    $binanceApiKey: String\n    $binanceApiSecret: String\n    $okxApiKey: String\n  ) {\n    postExchange(\n      binanceApiKey: $binanceApiKey\n      binanceApiSecret: $binanceApiSecret\n      okxApiKey: $okxApiKey\n    ) {\n      binanceApiKey\n      binanceApiSecret\n      okxApiKey\n    }\n  }\n',
+): (typeof documents)['\n  mutation Mutation(\n    $binanceApiKey: String\n    $binanceApiSecret: String\n    $okxApiKey: String\n  ) {\n    postExchange(\n      binanceApiKey: $binanceApiKey\n      binanceApiSecret: $binanceApiSecret\n      okxApiKey: $okxApiKey\n    ) {\n      binanceApiKey\n      binanceApiSecret\n      okxApiKey\n    }\n  }\n'];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

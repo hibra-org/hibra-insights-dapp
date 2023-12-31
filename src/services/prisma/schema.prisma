@@ -11,29 +11,68 @@ datasource db {
 }
 
 model User {
-  id             Int              @id @default(autoincrement())
-  wallet         String
-  walletAddress  String           @unique
-  chain          String
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  ExchangeDetail ExchangeDetail[]
+  id               Int               @id @default(autoincrement())
+  wallet           String
+  walletAddress    String            @unique
+  chain            String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  exchange         ExchangeDetail[]
+  binancePortfolio BinancePortfolio?
 
   @@unique([id, walletAddress])
 }
 
 model Exchange {
-  id             String           @unique
-  name           String
-  ExchangeDetail ExchangeDetail[]
+  id      String           @unique
+  name    String
+  details ExchangeDetail[]
 }
 
 model ExchangeDetail {
-  id            Int      @id @default(autoincrement())
-  exchange      Exchange @relation(fields: [exchangeId], references: [id])
-  exchangeId    String   @unique
-  user          User     @relation(fields: [userId, walletAddress], references: [id, walletAddress])
-  userId        Int
-  walletAddress String
-  apiKey        String?
+  id         Int      @id @default(autoincrement())
+  Exchange   Exchange @relation(fields: [exchangeId], references: [id])
+  exchangeId String   @unique
+  User       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  apiKey     String?
+  apiSecret  String?
+}
+
+model BinancePortfolio {
+  id         Int               @id @default(autoincrement())
+  User       User              @relation(fields: [userId], references: [id])
+  userId     Int               @unique
+  updateTime DateTime
+  balances   BinanceBalance[]
+  snapshots  BinanceSnapshot[]
+}
+
+model BinanceBalance {
+  id                 Int              @id @default(autoincrement())
+  asset              String           @unique
+  free               String
+  locked             String
+  BinancePortfolio   BinancePortfolio @relation(fields: [binancePortfolioId], references: [id])
+  binancePortfolioId Int
+  avgBuyPrice        String
+}
+
+model BinanceSnapshot {
+  id                 Int                      @id @default(autoincrement())
+  updateTime         DateTime
+  BinancePortfolio   BinancePortfolio         @relation(fields: [binancePortfolioId], references: [id])
+  binancePortfolioId Int
+  balances           BinanceSnapshotBalance[]
+  totalAssetOfUsd    String
+  totalAssetOfBtc    String
+}
+
+model BinanceSnapshotBalance {
+  id                Int             @id @default(autoincrement())
+  asset             String
+  free              String
+  locked            String
+  BinanceSnapshot   BinanceSnapshot @relation(fields: [binanceSnapshotId], references: [id])
+  binanceSnapshotId Int
 }

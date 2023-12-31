@@ -1,12 +1,21 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { GET_SETTING, POST_EXCHANGE } from '@/adapters/setting';
 import Access from '@/components/common/access';
+import { GET_SETTING, POST_EXCHANGE } from '@/services/apollo/queries/setting';
 import { ExchangeId } from '@/utils/constants';
-import { PLACEHOLDER_IMAGE } from '@/utils/helpers/common.helper';
-import { SaveOutlined } from '@ant-design/icons';
+import { QuestionCircleOutlined, SaveOutlined } from '@ant-design/icons';
 import { useMutation, useQuery } from '@apollo/client';
-import { App, Button, Card, Flex, Input, Spin, Typography } from 'antd';
+import {
+  App,
+  Button,
+  Card,
+  Flex,
+  Input,
+  Skeleton,
+  Spin,
+  Tooltip,
+  Typography,
+} from 'antd';
 import BNB from 'cryptocurrency-icons/svg/icon/bnb.svg';
 
 import OKX from '../../../../public/features/setting/okx.svg';
@@ -15,10 +24,12 @@ const { Title, Text } = Typography;
 
 function PortfolioSetting() {
   const [binanceApikey, setBinanceApiKey] = useState<string>();
+  const [binanceApiSecret, setBinanceApiSecret] = useState<string>();
   const [okxApiKey, setOkxApiKey] = useState<string>();
   const { notification } = App.useApp();
 
-  const { data: getSettingData } = useQuery(GET_SETTING);
+  const { data: getSettingData, loading: loadingGetSettingData } =
+    useQuery(GET_SETTING);
 
   const [postExchange, { loading: loadingPostExchange }] =
     useMutation(POST_EXCHANGE);
@@ -27,6 +38,14 @@ function PortfolioSetting() {
     (e: FormEvent<HTMLInputElement>) => {
       const value = e.currentTarget.value;
       setBinanceApiKey(value);
+    },
+    [],
+  );
+
+  const handleChangeBinanceApiSecret = useCallback(
+    (e: FormEvent<HTMLInputElement>) => {
+      const value = e.currentTarget.value;
+      setBinanceApiSecret(value);
     },
     [],
   );
@@ -44,6 +63,7 @@ function PortfolioSetting() {
       await postExchange({
         variables: {
           binanceApiKey: binanceApikey,
+          binanceApiSecret: binanceApiSecret,
           okxApiKey: okxApiKey,
         },
       });
@@ -66,6 +86,7 @@ function PortfolioSetting() {
       getSettingData.getSetting.exchange.forEach((ex) => {
         if (ex?.exchangeId === ExchangeId.BINANCE) {
           setBinanceApiKey(ex?.apiKey || '');
+          setBinanceApiSecret(ex?.apiSecret || '');
         }
 
         if (ex?.exchangeId === ExchangeId.OKX) {
@@ -74,6 +95,9 @@ function PortfolioSetting() {
       });
     }
   }, [getSettingData?.getSetting?.exchange]);
+
+  const isInitialUI = loadingGetSettingData;
+  const isLoading = loadingPostExchange;
 
   return (
     <Access>
@@ -94,60 +118,104 @@ function PortfolioSetting() {
           </Button>,
         ]}
       >
-        <Spin spinning={loadingPostExchange}>
-          <Flex vertical gap={60}>
-            <div>
-              <Title level={5}>Connect Binance account</Title>
-              <Text type="secondary">
-                Securely sync assets from your Binance account with using API
-                key.
-              </Text>
+        <Spin spinning={isLoading} tip="Loading...">
+          <Skeleton active loading={isInitialUI} paragraph={{ rows: 10 }}>
+            <Flex vertical gap={60}>
+              <div>
+                <Title level={5}>
+                  Connect Binance account{' '}
+                  <Tooltip
+                    title={
+                      <span>
+                        Please refer to{' '}
+                        <a
+                          href="https://www.binance.com/en/support/faq/how-to-create-api-keys-on-binance-360002502072"
+                          rel="noopener noreferrer"
+                        >
+                          this page
+                        </a>{' '}
+                        regarding API key creation.
+                      </span>
+                    }
+                    trigger="click"
+                  >
+                    <QuestionCircleOutlined />
+                  </Tooltip>
+                </Title>
+                <Text type="secondary">
+                  Securely sync assets from your Binance account with using API
+                  key.
+                </Text>
 
-              <div style={{ maxWidth: 400, marginTop: 16 }}>
-                <Input.Password
-                  placeholder="Binance API key"
-                  allowClear
-                  value={binanceApikey}
-                  prefix={
-                    <Image
-                      src={BNB.src}
-                      alt="BNB"
-                      width={BNB.width}
-                      height={BNB.height}
-                      placeholder={PLACEHOLDER_IMAGE}
-                      draggable={false}
-                    />
-                  }
-                  onChange={handleChangeBinanceApiKey}
-                />
-              </div>
-            </div>
-            <div>
-              <Title level={5}>Connect OKX account</Title>
-              <Text type="secondary">
-                Securely sync assets from your OKX account with using API key.
-              </Text>
+                <div style={{ marginTop: '0.5rem' }}>
+                  <Text strong>API key: </Text>
+                </div>
+                <div style={{ maxWidth: 400, marginTop: 8, marginBottom: 16 }}>
+                  <Input.Password
+                    placeholder="Binance API key"
+                    allowClear
+                    value={binanceApikey}
+                    prefix={
+                      <Image
+                        src={BNB.src}
+                        alt="BNB"
+                        width={BNB.width}
+                        height={BNB.height}
+                        draggable={false}
+                      />
+                    }
+                    onChange={handleChangeBinanceApiKey}
+                  />
+                </div>
 
-              <div style={{ maxWidth: 400, marginTop: 16 }}>
-                <Input.Password
-                  placeholder="Binance API key"
-                  value={okxApiKey}
-                  allowClear
-                  prefix={
-                    <Image
-                      src={OKX}
-                      alt="OKX"
-                      width={BNB.width}
-                      height={BNB.height}
-                      placeholder={PLACEHOLDER_IMAGE}
-                      draggable={false}
-                    />
-                  }
-                  onChange={handleChangeOkxApiKey}
-                />
+                <div style={{ marginTop: '0.5rem' }}>
+                  <Text strong>API secret: </Text>
+                </div>
+                <div style={{ maxWidth: 400, marginTop: 8 }}>
+                  <Input.Password
+                    placeholder="Binance API secret"
+                    allowClear
+                    value={binanceApiSecret}
+                    prefix={
+                      <Image
+                        src={BNB.src}
+                        alt="BNB"
+                        width={BNB.width}
+                        height={BNB.height}
+                        draggable={false}
+                      />
+                    }
+                    onChange={handleChangeBinanceApiSecret}
+                  />
+                </div>
               </div>
-            </div>
-          </Flex>
+              <div>
+                <Title level={5}>Connect OKX account</Title>
+                <Text type="secondary">
+                  Securely sync assets from your OKX account with using API key.
+                </Text>
+
+                <div style={{ maxWidth: 400, marginTop: 16 }}>
+                  <Input.Password
+                    placeholder="OKX API key"
+                    value={okxApiKey}
+                    allowClear
+                    disabled
+                    prefix={
+                      <Image
+                        src={OKX}
+                        alt="OKX"
+                        width={BNB.width}
+                        height={BNB.height}
+                        draggable={false}
+                      />
+                    }
+                    onChange={handleChangeOkxApiKey}
+                  />
+                </div>
+              </div>
+            </Flex>
+          </Skeleton>
         </Spin>
       </Card>
     </Access>
