@@ -30,13 +30,36 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
+export type BinanceBalance = {
+  __typename?: 'BinanceBalance';
+  asset?: Maybe<Scalars['String']['output']>;
+  avgBuyPrice?: Maybe<Scalars['String']['output']>;
+  free?: Maybe<Scalars['String']['output']>;
+  locked?: Maybe<Scalars['String']['output']>;
+};
+
+export type BinanceSnapshot = {
+  __typename?: 'BinanceSnapshot';
+  balances?: Maybe<Array<Maybe<BinanceBalance>>>;
+  totalAssetOfBtc?: Maybe<Scalars['String']['output']>;
+  totalAssetOfUsd?: Maybe<Scalars['String']['output']>;
+  updateTime?: Maybe<Scalars['String']['output']>;
+};
+
 export type ExchangeDetail = {
   __typename?: 'ExchangeDetail';
   apiKey?: Maybe<Scalars['String']['output']>;
+  apiSecret?: Maybe<Scalars['String']['output']>;
   exchangeId?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['Int']['output']>;
   userId?: Maybe<Scalars['Int']['output']>;
   walletAddress?: Maybe<Scalars['String']['output']>;
+};
+
+export type GetPortfolio = {
+  __typename?: 'GetPortfolio';
+  binanceBalances?: Maybe<Array<Maybe<BinanceBalance>>>;
+  binanceSnapshots?: Maybe<Array<Maybe<BinanceSnapshot>>>;
 };
 
 export type GetSetting = {
@@ -52,6 +75,7 @@ export type Mutation = {
 
 export type MutationPostExchangeArgs = {
   binanceApiKey?: InputMaybe<Scalars['String']['input']>;
+  binanceApiSecret?: InputMaybe<Scalars['String']['input']>;
   okxApiKey?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -69,6 +93,7 @@ export type Ping = {
 export type PostExchange = {
   __typename?: 'PostExchange';
   binanceApiKey?: Maybe<Scalars['String']['output']>;
+  binanceApiSecret?: Maybe<Scalars['String']['output']>;
   okxApiKey?: Maybe<Scalars['String']['output']>;
 };
 
@@ -79,6 +104,7 @@ export type PostLogin = {
 
 export type Query = {
   __typename?: 'Query';
+  getPortfolio?: Maybe<GetPortfolio>;
   getSetting?: Maybe<GetSetting>;
   ping?: Maybe<Ping>;
 };
@@ -94,6 +120,34 @@ export type PostLoginMutation = {
   postLogin?: { __typename?: 'PostLogin'; id: string } | null;
 };
 
+export type QueryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type QueryQuery = {
+  __typename?: 'Query';
+  getPortfolio?: {
+    __typename?: 'GetPortfolio';
+    binanceBalances?: Array<{
+      __typename?: 'BinanceBalance';
+      asset?: string | null;
+      free?: string | null;
+      locked?: string | null;
+      avgBuyPrice?: string | null;
+    } | null> | null;
+    binanceSnapshots?: Array<{
+      __typename?: 'BinanceSnapshot';
+      updateTime?: string | null;
+      totalAssetOfUsd?: string | null;
+      totalAssetOfBtc?: string | null;
+      balances?: Array<{
+        __typename?: 'BinanceBalance';
+        asset?: string | null;
+        free?: string | null;
+        locked?: string | null;
+      } | null> | null;
+    } | null> | null;
+  } | null;
+};
+
 export type GetSettingQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetSettingQuery = {
@@ -107,12 +161,14 @@ export type GetSettingQuery = {
       userId?: number | null;
       walletAddress?: string | null;
       apiKey?: string | null;
+      apiSecret?: string | null;
     } | null> | null;
   } | null;
 };
 
 export type MutationMutationVariables = Exact<{
   binanceApiKey?: InputMaybe<Scalars['String']['input']>;
+  binanceApiSecret?: InputMaybe<Scalars['String']['input']>;
   okxApiKey?: InputMaybe<Scalars['String']['input']>;
 }>;
 
@@ -121,6 +177,7 @@ export type MutationMutation = {
   postExchange?: {
     __typename?: 'PostExchange';
     binanceApiKey?: string | null;
+    binanceApiSecret?: string | null;
     okxApiKey?: string | null;
   } | null;
 };
@@ -202,6 +259,91 @@ export const PostLoginDocument = {
     },
   ],
 } as unknown as DocumentNode<PostLoginMutation, PostLoginMutationVariables>;
+export const QueryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Query' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getPortfolio' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'binanceBalances' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'asset' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'free' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'locked' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'avgBuyPrice' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'binanceSnapshots' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updateTime' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'totalAssetOfUsd' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'totalAssetOfBtc' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'balances' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'asset' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'free' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'locked' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<QueryQuery, QueryQueryVariables>;
 export const GetSettingDocument = {
   kind: 'Document',
   definitions: [
@@ -241,6 +383,10 @@ export const GetSettingDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'apiKey' },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'apiSecret' },
+                      },
                     ],
                   },
                 },
@@ -272,6 +418,14 @@ export const MutationDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
+            name: { kind: 'Name', value: 'binanceApiSecret' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
             name: { kind: 'Name', value: 'okxApiKey' },
           },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
@@ -294,6 +448,14 @@ export const MutationDocument = {
               },
               {
                 kind: 'Argument',
+                name: { kind: 'Name', value: 'binanceApiSecret' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'binanceApiSecret' },
+                },
+              },
+              {
+                kind: 'Argument',
                 name: { kind: 'Name', value: 'okxApiKey' },
                 value: {
                   kind: 'Variable',
@@ -307,6 +469,10 @@ export const MutationDocument = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'binanceApiKey' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'binanceApiSecret' },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'okxApiKey' } },
               ],

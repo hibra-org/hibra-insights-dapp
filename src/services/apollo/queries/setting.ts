@@ -9,15 +9,25 @@ const GET_SETTING = graphql(`
         userId
         walletAddress
         apiKey
+        apiSecret
       }
     }
   }
 `);
 
 const POST_EXCHANGE = graphql(`
-  mutation Mutation($binanceApiKey: String, $okxApiKey: String) {
-    postExchange(binanceApiKey: $binanceApiKey, okxApiKey: $okxApiKey) {
+  mutation Mutation(
+    $binanceApiKey: String
+    $binanceApiSecret: String
+    $okxApiKey: String
+  ) {
+    postExchange(
+      binanceApiKey: $binanceApiKey
+      binanceApiSecret: $binanceApiSecret
+      okxApiKey: $okxApiKey
+    ) {
       binanceApiKey
+      binanceApiSecret
       okxApiKey
     }
   }

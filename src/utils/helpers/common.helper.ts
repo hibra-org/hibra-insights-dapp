@@ -66,6 +66,13 @@ const getSweetErrorConfig = (message: string): SweetAlertOptions => {
   };
 };
 
+const currencyFormat = (value: bigint | number) =>
+  new Intl.NumberFormat('en', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 4,
+  }).format(value);
+
 export {
   removeUndefinedAndNull,
   isEmpty,
@@ -74,4 +81,5 @@ export {
   toCapitalizeFirstLetter,
   getSweetErrorConfig,
   PLACEHOLDER_IMAGE,
+  currencyFormat,
 };

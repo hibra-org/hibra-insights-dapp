@@ -54,10 +54,4 @@ const MENU_ITEMS = [
 }[] &
   MenuProps['items'];
 
-// eslint-disable-next-line no-unused-vars
-enum COOKIE_KEYS {
-  // eslint-disable-next-line no-unused-vars
-  AUTH = 'auth',
-}
-
-export { NO_IMAGE, MENU_ITEMS, COOKIE_KEYS };
+export { NO_IMAGE, MENU_ITEMS };

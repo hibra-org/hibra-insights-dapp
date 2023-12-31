@@ -5,10 +5,12 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.string().min(1),
     PUBLIC_KEY: z.string().min(1),
+    BINANCE_BASE_URL: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_API_ENDPOINT: z.string().min(1).includes('http'),
     NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID: z.string().min(1),
+    NEXT_PUBLIC_SOLANA_RPC: z.string().min(1),
   },
   // If you're using Next.js < 13.4.4, you'll need to specify the runtimeEnv manually
   runtimeEnv: {
@@ -17,6 +19,8 @@ export const env = createEnv({
       process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID,
     DATABASE_URL: process.env.DATABASE_URL,
     PUBLIC_KEY: process.env.PUBLIC_KEY,
+    BINANCE_BASE_URL: process.env.BINANCE_BASE_URL,
+    NEXT_PUBLIC_SOLANA_RPC: process.env.NEXT_PUBLIC_SOLANA_RPC,
   },
   // For Next.js >= 13.4.4, you only need to destructure client variables:
   // experimental__runtimeEnv: {

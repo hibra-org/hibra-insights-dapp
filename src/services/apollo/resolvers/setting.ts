@@ -30,7 +30,7 @@ const settingResolvers = {
             walletAddress,
           },
           include: {
-            ExchangeDetail: true,
+            exchange: true,
           },
         });
 
@@ -39,7 +39,7 @@ const settingResolvers = {
         }
 
         return {
-          exchange: user.ExchangeDetail,
+          exchange: user.exchange,
         };
       } catch (e) {
         throw e;
@@ -85,15 +85,14 @@ const settingResolvers = {
         data?.push({
           exchangeId: ExchangeId.BINANCE,
           userId: user.id,
-          walletAddress,
           apiKey: args.binanceApiKey,
+          apiSecret: args.binanceApiSecret,
         });
 
         data?.push({
           exchangeId: ExchangeId.OKX,
           userId: user.id,
-          walletAddress,
-          apiKey: args.binanceApiKey,
+          apiKey: args.okxApiKey,
         });
 
         if (data?.length > 0) {
@@ -104,11 +103,12 @@ const settingResolvers = {
                 create: {
                   exchangeId: item.exchangeId,
                   userId: item.userId,
-                  walletAddress: item.walletAddress,
                   apiKey: item.apiKey,
+                  apiSecret: item?.apiSecret,
                 },
                 update: {
                   apiKey: item.apiKey,
+                  apiSecret: item?.apiSecret,
                 },
                 where: {
                   exchangeId: item.exchangeId,
@@ -123,6 +123,7 @@ const settingResolvers = {
 
         return {
           binanceApiKey: args?.binanceApiKey,
+          binanceApiSecret: args?.binanceApiSecret,
           okxApiKey: args?.okxApiKey,
         };
       } catch (e) {

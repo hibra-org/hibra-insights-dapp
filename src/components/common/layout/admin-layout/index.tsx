@@ -100,7 +100,7 @@ function AdminLayout({ children }: { children: ReactNode }) {
   );
 
   return (
-    <Layout hasSider>
+    <Layout hasSider style={{ minHeight: '100vh' }}>
       <Sider
         theme="light"
         breakpoint="lg"
