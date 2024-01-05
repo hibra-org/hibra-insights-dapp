@@ -68,15 +68,15 @@ const nextConfig = runWithBundleAnalyzer({
     domains: [],
   },
 
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/overview',
-        permanent: true,
-      },
-    ];
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/',
+  //       destination: '/overview',
+  //       permanent: true,
+  //     },
+  //   ];
+  // },
 });
 
 export default process.env.NODE_ENV === 'production'
